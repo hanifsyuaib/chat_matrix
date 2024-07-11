@@ -6,11 +6,14 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "dev": "vue-cli-service serve"
+    "dev": "vue-cli-service serve",
+    "vite": "node ./bin/vite"
   },
   "dependencies": {
+    "@types/vue-feather-icons": "^5.0.8",
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
+    "vue-feather-icons": "^5.1.0",
     "vue-router": "^4.4.0",
     "vuex": "^4.1.0"
   },
@@ -30,8 +33,11 @@
     "eslint-plugin-vue": "^8.7.1",
     "eslint-plugin-vuejs-accessibility": "^1.1.0",
     "postcss": "^8.4.39",
+    "pug": "^3.0.3",
+    "pug-plain-loader": "^1.1.0",
     "tailwindcss": "^3.4.4",
-    "vue-cli-plugin-tailwind": "~3.0.0"
+    "vue-cli-plugin-tailwind": "~3.0.0",
+    "vue-cli-plugin-vite": "~1.5.0"
   },
   "eslintConfig": {
     "root": true,
@@ -46,7 +52,12 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {}
+    "rules": {
+      "max-len": "off",
+      "lines-between-class-members": "off",
+      "indent": "off",
+      "comma-dangle": "off"
+    }
   },
   "browserslist": [
     "> 1%",
