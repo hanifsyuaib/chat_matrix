@@ -1,68 +1,68 @@
 <template>
-  <div>
-    <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>Register</title>
-      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    </head>
-    <body>
-      <div class="register-container">
-        <div class="card">
-          <div class="card-header">Register</div>
-          <div class="card-body">
-            <div v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
-            <form @submit.prevent="handleSubmit">
-              <div class="form-group">
-                <label for="username">Username</label>
-                <input type="text" class="form-control" id="username" v-model="username" required>
-              </div>
-              <div class="form-group">
-                <label for="email">Email</label>
-                <input type="text" class="form-control" id="email" v-model="email" required>
-              </div>
-              <div class="form-group">
-                <label for="password1">Password</label>
-                <input type="password" class="form-control" id="password1" v-model="password1" required>
-              </div>
-              <div class="form-group">
-                <label for="password2">Confirm Password</label>
-                <input type="password" class="form-control" id="password2" v-model="password2" required>
-              </div>
-              <button type="submit" class="btn btn-primary">Register</button>
-            </form>
+  <div class="register-container">
+    <div class="card">
+      <div class="card-header">Register</div>
+      <div class="card-body">
+        <div v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+        <form @submit.prevent="register">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" class="form-control" id="username" v-model="username" required>
           </div>
-        </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" v-model="email" required>
+          </div>
+          <div class="form-group">
+            <label for="password1">Password</label>
+            <input type="password" class="form-control" id="password1" v-model="password1" required>
+          </div>
+          <div class="form-group">
+            <label for="password2">Confirm Password</label>
+            <input type="password" class="form-control" id="password2" v-model="password2" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Register</button>
+        </form>
       </div>
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    </body>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
 const username = ref('');
 const email = ref('');
 const password1 = ref('');
 const password2 = ref('');
 const errorMessage = ref('');
+const router = useRouter();
 
-const handleSubmit = () => {
-  if (password1.value !== password2.value) {
-    errorMessage.value = 'Passwords do not match';
-    return;
+const register = async () => {
+  errorMessage.value = '';
+
+  try {
+    const response = await axios.post('/register/', {
+      username: username.value,
+      email: email.value,
+      password1: password1.value,
+      password2: password2.value,
+    });
+
+    if (response.data.success) {
+      router.push(response.data.redirect_url);
+    } else {
+      errorMessage.value = response.data.error_message;
+    }
+  } catch (error) {
+    errorMessage.value = 'Error creating account';
   }
-  // Add form submission logic here
 };
 </script>
 
 <style>
-body {
-  background-color: #f0f0f0;
-}
 .register-container {
   display: flex;
   justify-content: center;
@@ -90,8 +90,7 @@ label {
   display: block;
   margin-bottom: 5px;
 }
-input[type="text"],
-input[type="password"] {
+input[type="text"], input[type="password"] {
   border-radius: 4px;
   border: 1px solid #ccc;
   padding: 10px;

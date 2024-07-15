@@ -1,171 +1,93 @@
 <template>
-  <div>
-    <head>
-      <meta charset="utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-      <title>Chatbot</title>
-      <link
-        rel="stylesheet"
-        href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      />
-    </head>
-    <body>
-      <div class="chat-container">
-        <div class="card flex-grow-1">
-          <div class="card-header bg-primary text-white">ChatMatrix</div>
-          <div class="card-header bg-primary text-white">
-            <b>Welcome, {{ username }}</b>
-            <a v-if="user.is_authenticated" style="color: yellow;" href="logout">Logout</a>
-            <div v-else>
-              <a style="color: yellow;" href="login">Login</a>
-              <a style="color: yellow;" href="register">Register</a>
+  <div class="chat-container">
+    <div class="card">
+      <div class="card-header bg-primary text-white">
+        ChatMatrix
+        <button @click="logout" class="btn btn-danger btn-sm float-right">Logout</button>
+      </div>
+      <div class="card-body messages-box">
+        <ul class="list-unstyled messages-list">
+          <li v-for="chat in chats" :key="chat.message" class="message received">
+            <div class="message-text">
+              <div class="message-sender"><b>ChatMatrix</b></div>
+              <div class="message-content">{{ chat.response }}</div>
             </div>
-          </div>
-          <div class="card-body messages-box">
-            <ul class="list-unstyled messages-list">
-              <li
-                v-for="chat in chats"
-                :key="chat.id"
-                :class="['message', chat.user == request.user ? 'sent' : 'received']"
-              >
-                <div class="message-text">
-                  <div class="message-sender">
-                    <b>{{ chat.user == request.user ? 'You' : 'ChatMatrix' }}</b>
-                  </div>
-                  <div class="message-content">{{ chat.message }}</div>
-                </div>
-              </li>
-            </ul>
+          </li>
+          <li v-for="chat in chats" :key="chat.response" class="message sent">
+            <div class="message-text">
+              <div class="message-sender"><b>You</b></div>
+              <div class="message-content">{{ chat.message }}</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <form class="message-form" @submit.prevent="sendMessage">
+        <div class="input-group">
+          <input type="text" class="form-control message-input" v-model="newMessage" placeholder="Type your message..." required>
+          <div class="input-group-append">
+            <button type="submit" class="btn btn-primary btn-send">Send</button>
           </div>
         </div>
-        <form class="message-form" @submit.prevent="handleSubmit">
-          <div class="input-group">
-            <input
-              type="text"
-              class="form-control message-input"
-              placeholder="Type your message..."
-              v-model="message"
-            />
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-primary btn-send">Send</button>
-            </div>
-          </div>
-        </form>
-      </div>
-      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    </body>
+      </form>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
-const username = ref('User'); // Replace with the actual username from your data
-const user = ref({ is_authenticated: true }); // Replace with actual user authentication status
-const request = ref({ user: 'User' }); // Replace with actual request user data
-const chats = ref([
-  // Replace with actual chat data
-  { id: 1, user: 'User', message: 'Hi there!', response: 'Hello!' },
-  { id: 2, user: 'ChatMatrix', message: 'How can I help you today?' },
-]);
+const newMessage = ref('');
+const chats = ref([]);
+const router = useRouter();
 
-const message = ref('');
+const fetchChats = async () => {
+  try {
+    const response = await axios.get('/chatbot/');
+    chats.value = response.data.chats;
+  } catch (error) {
+    console.error('Error fetching chats:', error);
+  }
+};
 
-const handleSubmit = () => {
-  if (message.value.trim().length === 0) {
-    return;
+const sendMessage = async () => {
+  if (!newMessage.value) return;
+
+  const message = newMessage.value;
+  chats.value.push({ message, response: '...' }); // Temporary response
+
+  try {
+    const response = await axios.post('/chatbot/', {
+      message,
+    }, {
+      headers: {
+        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+      },
+    });
+
+    // Replace temporary response with the actual response
+    const chatIndex = chats.value.length - 1;
+    chats.value[chatIndex].response = response.data.response;
+  } catch (error) {
+    console.error('Error sending message:', error);
   }
 
-  const newMessage = {
-    id: chats.value.length + 1,
-    user: request.value.user,
-    message: message.value,
-    response: '',
-  };
-  chats.value.push(newMessage);
-
-  message.value = '';
-
-  fetch('', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-      'message': newMessage.message,
-    }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      newMessage.response = data.response;
-      chats.value.push({
-        id: chats.value.length + 1,
-        user: 'ChatMatrix',
-        message: data.response,
-      });
-    });
+  newMessage.value = ''; // Clear input
 };
+
+const logout = async () => {
+  try {
+    await axios.post('/logout/'); // Adjust the URL based on routing
+    router.push('/login'); // Redirect to login page after logout
+  } catch (error) {
+    console.error('Error logging out:', error);
+  }
+};
+
+onMounted(fetchChats);
 </script>
 
 <style>
-body,
-html {
-  height: 100%;
-}
 
-.messages-box {
-  flex: 1;
-  overflow-y: auto;
-}
-
-.messages-list {
-  padding-left: 0;
-}
-
-.message {
-  margin-bottom: 15px;
-  list-style: none;
-}
-
-.message-text {
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.sent {
-  background-color: #dcf8c6;
-  align-self: flex-end;
-}
-
-.received {
-  background-color: #f1f0f0;
-  align-self: flex-start;
-}
-
-.message-form {
-  display: flex;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 10px;
-  background-color: #f8f9fa;
-}
-
-.message-input {
-  flex: 1;
-  border-radius: 0;
-  border-right: none;
-}
-
-.btn-send {
-  border-radius: 0;
-}
-
-.chat-container {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
 </style>
