@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import HelloWorld from '../components/HelloWorld.vue';
-import Register from '../pages/Register.vue';
-import Login from '../pages/Login.vue';
+import Register from '../pages/UserRegister.vue';
+import Login from '../pages/UserLogin.vue';
 import ChatBot from '../pages/ChatBot.vue';
 
 const routes = [
