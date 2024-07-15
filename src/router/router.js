@@ -1,14 +1,15 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HelloWorld from '../components/HelloWorld.vue';
+import HomePage from '../components/HomePage.vue';
 import Register from '../pages/UserRegister.vue';
 import Login from '../pages/UserLogin.vue';
 import ChatBot from '../pages/ChatBot.vue';
+import NotFound from '../pages/NotFound.vue';
 
 const routes = [
   {
     path: '/',
-    name: 'HelloWorld',
-    component: HelloWorld,
+    name: 'HomePage',
+    component: HomePage,
   },
   {
     path: '/login',
@@ -25,11 +26,16 @@ const routes = [
     name: 'ChatBot',
     component: ChatBot,
   },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound,
+  },
   // Other routes
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory(process.env.BASE_URL),
   routes,
 });
 

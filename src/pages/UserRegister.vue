@@ -6,20 +6,24 @@
         <div v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
         <form @submit.prevent="register">
           <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" id="username" v-model="username" required>
+            <label for="username">Username
+              <input type="text" class="form-control" id="username" v-model="username" required>
+            </label>
           </div>
           <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" class="form-control" id="email" v-model="email" required>
+            <label for="email">Email
+              <input type="text" class="form-control" id="email" v-model="email" required>
+            </label>
           </div>
           <div class="form-group">
-            <label for="password1">Password</label>
-            <input type="password" class="form-control" id="password1" v-model="password1" required>
+            <label for="password1">Password
+              <input type="password" class="form-control" id="password1" v-model="password1" required>
+            </label>
           </div>
           <div class="form-group">
-            <label for="password2">Confirm Password</label>
-            <input type="password" class="form-control" id="password2" v-model="password2" required>
+            <label for="password2">Confirm Password
+              <input type="password" class="form-control" id="password2" v-model="password2" required>
+            </label>
           </div>
           <button type="submit" class="btn btn-primary">Register</button>
         </form>

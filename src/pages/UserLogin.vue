@@ -6,12 +6,14 @@
         <div v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
         <form @submit.prevent="login">
           <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" class="form-control" v-model="username" required>
+            <label for="username">Username
+              <input type="text" id="username" class="form-control" v-model="username" required/>
+            </label>
           </div>
           <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" v-model="password" required>
+            <label for="password">Password
+              <input type="password" id="password" class="form-control" v-model="password" required/>
+            </label>
           </div>
           <button type="submit">Login</button>
         </form>
@@ -22,7 +24,6 @@
     </div>
   </div>
 </template>
-
 <script setup>
 import { ref } from 'vue';
 import axios from 'axios';
@@ -56,7 +57,5 @@ const login = async () => {
   }
 };
 </script>
-
 <style>
-
 </style>

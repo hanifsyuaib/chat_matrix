@@ -23,7 +23,15 @@
       </div>
       <form class="message-form" @submit.prevent="sendMessage">
         <div class="input-group">
-          <input type="text" class="form-control message-input" v-model="newMessage" placeholder="Type your message..." required>
+          <input
+            type="text"
+            id="messageInput"
+            class="form-control message-input"
+            v-model="newMessage"
+            placeholder="Type your message..."
+            aria-label="sendMessage"
+            required
+          />
           <div class="input-group-append">
             <button type="submit" class="btn btn-primary btn-send">Send</button>
           </div>
