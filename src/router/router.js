@@ -4,6 +4,7 @@ import Register from '../pages/UserRegister.vue';
 import Login from '../pages/UserLogin.vue';
 import ChatBot from '../pages/ChatBot.vue';
 import NotFound from '../pages/NotFound.vue';
+import Logout from '../pages/UserLogout.vue';
 
 const routes = [
   {
@@ -15,6 +16,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login,
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    component: Logout,
   },
   {
     path: '/register',

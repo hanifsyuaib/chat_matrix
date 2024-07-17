@@ -1,31 +1,31 @@
 <template>
-  <div class="register-container">
-    <div class="card">
-      <div class="card-header">Register</div>
-      <div class="card-body">
-        <div v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
+  <div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="bg-white rounded-lg shadow-lg max-w-sm w-full">
+      <div class="bg-blue-600 text-white text-2xl font-bold text-center py-4 rounded-t-lg">Register</div>
+      <div class="p-6">
+        <div v-if="errorMessage" class="bg-red-100 text-red-700 p-2 rounded mb-4" role="alert">{{ errorMessage }}</div>
         <form @submit.prevent="register">
-          <div class="form-group">
-            <label for="username">Username
-              <input type="text" class="form-control" id="username" v-model="username" required>
+          <div class="mb-4">
+            <label for="username" class="block font-medium mb-1">Username
+              <input type="text" id="username" v-model="username" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </label>
           </div>
-          <div class="form-group">
-            <label for="email">Email
-              <input type="text" class="form-control" id="email" v-model="email" required>
+          <div class="mb-4">
+            <label for="email" class="block font-medium mb-1">Email
+              <input type="text" id="email" v-model="email" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </label>
           </div>
-          <div class="form-group">
-            <label for="password1">Password
-              <input type="password" class="form-control" id="password1" v-model="password1" required>
+          <div class="mb-4">
+            <label for="password1" class="block font-medium mb-1">Password
+              <input type="password" id="password1" v-model="password1" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </label>
           </div>
-          <div class="form-group">
-            <label for="password2">Confirm Password
-              <input type="password" class="form-control" id="password2" v-model="password2" required>
+          <div class="mb-4">
+            <label for="password2" class="block font-medium mb-1">Confirm Password
+              <input type="password" id="password2" v-model="password2" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </label>
           </div>
-          <button type="submit" class="btn btn-primary">Register</button>
+          <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-blue-500 transition">Register</button>
         </form>
       </div>
     </div>
@@ -48,7 +48,7 @@ const register = async () => {
   errorMessage.value = '';
 
   try {
-    const response = await axios.post('/register/', {
+    const response = await axios.post('http://127.0.0.1:8000/register', {
       username: username.value,
       email: email.value,
       password1: password1.value,
@@ -56,7 +56,7 @@ const register = async () => {
     });
 
     if (response.data.success) {
-      router.push(response.data.redirect_url);
+      router.push('/chatbot');
     } else {
       errorMessage.value = response.data.error_message;
     }
@@ -66,63 +66,6 @@ const register = async () => {
 };
 </script>
 
-<style>
-.register-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-.card {
-  max-width: 400px;
-}
-.card-header {
-  background-color: #007bff;
-  color: white;
-  font-size: 24px;
-  font-weight: bold;
-  text-align: center;
-}
-.card-body {
-  padding: 30px;
-}
-.form-group {
-  margin-bottom: 20px;
-}
-label {
-  font-weight: bold;
-  display: block;
-  margin-bottom: 5px;
-}
-input[type="text"], input[type="password"] {
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  padding: 10px;
-  font-size: 16px;
-  width: 100%;
-  box-sizing: border-box;
-  margin-bottom: 10px;
-}
-button[type="submit"] {
-  background-color: #007bff;
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  width: 100%;
-}
-button[type="submit"]:hover {
-  background-color: #0062cc;
-}
-.alert-danger {
-  background-color: #f8d7da;
-  color: #721c24;
-  padding: 10px;
-  margin-bottom: 20px;
-  border: 1px solid #f5c6cb;
-  border-radius: 4px;
-}
+<style scoped>
+
 </style>
