@@ -19,7 +19,7 @@
         </form>
       </div>
       <div class="p-4 text-center">
-        <p>Don't have an account? <a href="/register" class="text-blue-600 hover:underline">Register here</a></p>
+        <p>Don't have an account? <a href="/register/" class="text-blue-600 hover:underline">Register here</a></p>
       </div>
     </div>
   </div>
@@ -39,7 +39,7 @@ const login = async () => {
   errorMessage.value = '';
 
   try {
-    const response = await axios.post('http://127.0.0.1:8000/login', {
+    const response = await axios.post('http://127.0.0.1:8000/login/', {
       username: username.value,
       password: password.value,
     }, {
@@ -49,7 +49,7 @@ const login = async () => {
     });
 
     if (response.data.success) {
-      router.push('/chatbot');
+      router.push('/chatbot/');
     } else {
       errorMessage.value = response.data.error_message;
     }

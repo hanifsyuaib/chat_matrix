@@ -12,7 +12,7 @@
           </div>
           <div class="mb-4">
             <label for="email" class="block font-medium mb-1">Email
-              <input type="text" id="email" v-model="email" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <input type="email" id="email" v-model="email" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
             </label>
           </div>
           <div class="mb-4">
@@ -33,30 +33,59 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+
+// Ensure credentials (such as cookies) are included with every request
+axios.defaults.withCredentials = true;
 
 const username = ref('');
 const email = ref('');
 const password1 = ref('');
 const password2 = ref('');
 const errorMessage = ref('');
+const csrftoken = ref('');
 const router = useRouter();
+
+const fetchCSRFToken = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/get-csrf-token/');
+    csrftoken.value = response.data.csrftoken;
+  } catch (error) {
+    errorMessage.value = 'Error fetching CSRF token';
+  }
+};
+
+const storeCSRFToken = (token) => {
+  localStorage.setItem('csrftoken', token);
+  console.log('CSRF Token set:', token); // Debugging line
+};
+
+onMounted(() => {
+  fetchCSRFToken();
+});
 
 const register = async () => {
   errorMessage.value = '';
 
   try {
-    const response = await axios.post('http://127.0.0.1:8000/register', {
+    const payload = {
       username: username.value,
       email: email.value,
       password1: password1.value,
       password2: password2.value,
+    };
+
+    const response = await axios.post('http://127.0.0.1:8000/register/', payload, {
+      headers: {
+        'X-CSRFToken': csrftoken.value,
+      },
     });
 
     if (response.data.success) {
-      router.push('/chatbot');
+      storeCSRFToken(csrftoken.value); // Store token in local storage
+      router.push('/chatbot/');
     } else {
       errorMessage.value = response.data.error_message;
     }
@@ -65,7 +94,3 @@ const register = async () => {
   }
 };
 </script>
-
-<style scoped>
-
-</style>

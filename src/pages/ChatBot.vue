@@ -3,10 +3,15 @@
     <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
       <div class="bg-blue-600 text-white p-4 flex justify-between items-center">
         <span class="text-xl font-bold">ChatMatrix</span>
-        <span>
+        <span class="relative group">
           Welcome, {{ username }}
-          <router-link to="/logout">
-            <button @click="logout" class="text-white underline ml-2">Logout</button>
+          <router-link to="/logout/">
+            <button @click="logout" class="text-white ml-2 relative">
+              <i class="ri-logout-box-r-line text-xl"></i>
+              <span class="tooltip group-hover:opacity-100">
+                Logout
+              </span>
+            </button>
           </router-link>
         </span>
       </div>
@@ -127,5 +132,9 @@ body {
 .memo-margin {
   margin-top: -1%;
   margin-bottom: 1%;
+}
+.tooltip {
+  @apply absolute left-1/2 transform -translate-x-1/2 -bottom-6 bg-gray-700 text-white text-xs rounded-lg px-2 py-1 opacity-0 transition-opacity duration-200 ease-in-out;
+  pointer-events: none;
 }
 </style>

@@ -16,12 +16,12 @@ const router = useRouter();
 
 const logout = async () => {
   try {
-    await axios.post('http://127.0.0.1:8000/logout', {}, {
+    await axios.post('http://127.0.0.1:8000/logout/', {}, {
       headers: {
         'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
       },
     });
-    router.push('/login');
+    router.push('/');
   } catch (error) {
     console.error('Error logging out:', error);
   }
