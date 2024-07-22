@@ -6,22 +6,27 @@
         <span class="relative group">
           Welcome, {{ username }}
           <router-link to="/logout/">
-            <button @click="logout" class="text-white ml-2 relative">
-              <i class="ri-logout-box-r-line text-xl"></i>
-              <span class="tooltip group-hover:opacity-100">
-                Logout
-              </span>
-            </button>
+            <i class="ri-logout-box-r-line text-xl"></i>
+            <span class="tooltip group-hover:opacity-100">
+              Logout
+            </span>
           </router-link>
         </span>
       </div>
       <div class="flex flex-col h-[calc(100vh-200px)] p-4 overflow-y-auto">
         <ul class="space-y-4">
-          <li v-for="(chat, index) in chats" :key="index" :class="{'text-right': !chat.response}">
-            <div :class="{'bg-green-100': !chat.response, 'bg-gray-100': chat.response}" class="inline-block p-3 rounded-lg max-w-2xl">
-              <div class="font-bold" v-if="!chat.response">You</div>
-              <div class="font-bold" v-if="chat.response">ChatMatrix</div>
-              <div v-html="formatMessage(chat.response || chat.message)"></div>
+          <li v-for="(chat, index) in chats" :key="index">
+            <div v-if="chat.message" class="chat-item user-message">
+              <div class="bg-green-100 inline-block p-3 rounded-lg max-w-2xl">
+                <div class="font-bold">You</div>
+                <div v-html="formatMessage(chat.message)"></div>
+              </div>
+            </div>
+            <div v-if="chat.response" class="chat-item system-response">
+              <div class="bg-gray-100 inline-block p-3 rounded-lg max-w-2xl">
+                <div class="font-bold">ChatMatrix</div>
+                <div v-html="formatMessage(chat.response)"></div>
+              </div>
             </div>
           </li>
         </ul>
@@ -53,34 +58,55 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
+// Ensure credentials (such as cookies) are included with every request
+axios.defaults.withCredentials = true;
+
 const newMessage = ref('');
 const chats = ref([]);
-const username = ref('dummy02');
+const username = ref('');
+const csrftoken = ref('');
 const router = useRouter();
+
+const fetchCSRFToken = async () => {
+  try {
+    const response = await axios.get('http://127.0.0.1:8000/get-csrf-token/');
+    csrftoken.value = response.data.csrftoken;
+  } catch (error) {
+    console.error('Error fetching CSRF token: ', error);
+  }
+};
 
 const fetchChats = async () => {
   try {
     const response = await axios.get('http://127.0.0.1:8000/chatbot/');
     chats.value = response.data.chats || []; // Ensure chats is an array
+    username.value = response.data.username;
   } catch (error) {
-    console.error('Error fetching chats:', error);
-    chats.value = []; // Fallback to empty array if fetch fails
+    if (error.response && error.response.status === 401) {
+      // Redirect to login page if not authenticated
+      router.push('/login/');
+    } else {
+      console.error('Error fetching chats:', error);
+      chats.value = []; // Fallback to empty array if fetch fails
+    }
   }
 };
 
 const sendMessage = async () => {
   if (!newMessage.value) return;
 
-  const message = newMessage.value;
+  await fetchCSRFToken();
 
+  const message = newMessage.value; // Payload
   chats.value.push({ message }); // Add the user's message to the chat
+  newMessage.value = ''; // Clear input
 
   try {
     const response = await axios.post('http://127.0.0.1:8000/chatbot/', {
       message,
     }, {
       headers: {
-        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+        'X-CSRFToken': csrftoken.value,
       },
     });
 
@@ -89,8 +115,6 @@ const sendMessage = async () => {
   } catch (error) {
     console.error('Error sending message:', error);
   }
-
-  newMessage.value = ''; // Clear input
 };
 
 const handleEnter = (event) => {
@@ -109,20 +133,10 @@ const autoResize = (event) => {
 
 const formatMessage = (message) => message.replace(/\n/g, '<br>'); // Replace newlines with <br>
 
-const logout = async () => {
-  try {
-    await axios.post('http://127.0.0.1:8000/logout/', {}, {
-      headers: {
-        'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-      },
-    });
-    router.push('/login');
-  } catch (error) {
-    console.error('Error logging out:', error);
-  }
-};
+onMounted(() => {
+  fetchChats(); // GET Chat history
+});
 
-onMounted(fetchChats);
 </script>
 
 <style scoped>
@@ -136,5 +150,14 @@ body {
 .tooltip {
   @apply absolute left-1/2 transform -translate-x-1/2 -bottom-6 bg-gray-700 text-white text-xs rounded-lg px-2 py-1 opacity-0 transition-opacity duration-200 ease-in-out;
   pointer-events: none;
+}
+.chat-item {
+  margin-bottom: 1rem;
+}
+.user-message {
+  text-align: right;
+}
+.system-response {
+  text-align: left;
 }
 </style>

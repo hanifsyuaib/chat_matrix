@@ -57,11 +57,6 @@ const fetchCSRFToken = async () => {
   }
 };
 
-const storeCSRFToken = (token) => {
-  localStorage.setItem('csrftoken', token);
-  console.log('CSRF Token set:', token); // Debugging line
-};
-
 onMounted(() => {
   fetchCSRFToken();
 });
@@ -84,7 +79,6 @@ const register = async () => {
     });
 
     if (response.data.success) {
-      storeCSRFToken(csrftoken.value); // Store token in local storage
       router.push('/chatbot/');
     } else {
       errorMessage.value = response.data.error_message;
