@@ -2,9 +2,8 @@
   <div class="min-h-screen bg-gray-100 flex flex-col items-center justify-center py-6">
     <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden">
       <div class="bg-blue-600 text-white p-4 flex justify-between items-center">
-        <span class="text-xl font-bold">ChatMatrix</span>
+        <span class="text-xl font-bold">Sentiment Analysis</span>
         <span class="relative group">
-          Welcome, {{ username }}
           <router-link to="/logout/">
             <i class="ri-logout-box-r-line text-xl"></i>
             <span class="tooltip group-hover:opacity-100">
@@ -18,7 +17,7 @@
           <li v-for="(chat, index) in chats" :key="index">
             <div v-if="chat.message" class="chat-item user-message">
               <div class="bg-green-100 inline-block p-3 rounded-lg max-w-2xl">
-                <div class="font-bold">You</div>
+                <div class="font-bold">{{ username }}</div>
                 <div v-html="formatMessage(chat.message)"></div>
               </div>
             </div>
@@ -69,7 +68,7 @@ const router = useRouter();
 
 const fetchCSRFToken = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/get-csrf-token/');
+    const response = await axios.get('http://127.0.0.1:8000/api/get-csrf-token/');
     csrftoken.value = response.data.csrftoken;
   } catch (error) {
     console.error('Error fetching CSRF token: ', error);
@@ -78,7 +77,7 @@ const fetchCSRFToken = async () => {
 
 const fetchChats = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/chatbot/');
+    const response = await axios.get('http://127.0.0.1:8000/api/sentiment-analysis/');
     chats.value = response.data.chats || []; // Ensure chats is an array
     username.value = response.data.username;
   } catch (error) {
@@ -102,7 +101,7 @@ const sendMessage = async () => {
   newMessage.value = ''; // Clear input
 
   try {
-    const response = await axios.post('http://127.0.0.1:8000/chatbot/', {
+    const response = await axios.post('http://127.0.0.1:8000/api/sentiment-analysis/', {
       message,
     }, {
       headers: {

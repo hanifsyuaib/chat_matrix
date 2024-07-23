@@ -41,7 +41,7 @@ const router = useRouter();
 
 const fetchCSRFToken = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/get-csrf-token/');
+    const response = await axios.get('http://127.0.0.1:8000/api/get-csrf-token/');
     csrftoken.value = response.data.csrftoken;
   } catch (error) {
     errorMessage.value = 'Error fetching CSRF token';
@@ -61,14 +61,14 @@ const login = async () => {
       password: password.value,
     };
 
-    const response = await axios.post('http://127.0.0.1:8000/login/', payload, {
+    const response = await axios.post('http://127.0.0.1:8000/api/login/', payload, {
       headers: {
         'X-CSRFToken': csrftoken.value,
       },
     });
 
     if (response.data.success) {
-      router.push('/chatbot/');
+      router.push('/sentiment-analysis/');
     } else {
       errorMessage.value = response.data.error_message;
     }

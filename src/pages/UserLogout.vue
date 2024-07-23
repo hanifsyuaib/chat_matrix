@@ -20,7 +20,7 @@ const router = useRouter();
 
 const fetchCSRFToken = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/get-csrf-token/');
+    const response = await axios.get('http://127.0.0.1:8000/api/get-csrf-token/');
     csrftoken.value = response.data.csrftoken;
   } catch (error) {
     console.error('Error fetching CSRF token: ', error);
@@ -31,7 +31,7 @@ const logout = async () => {
   await fetchCSRFToken();
 
   try {
-    await axios.post('http://127.0.0.1:8000/logout/', {}, {
+    await axios.post('http://127.0.0.1:8000/api/logout/', {}, {
       headers: {
         'X-CSRFToken': csrftoken.value,
       },

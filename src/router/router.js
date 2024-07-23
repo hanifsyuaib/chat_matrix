@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from '../components/HomePage.vue';
+import HomePage from '../pages/HomePage.vue';
 import Register from '../pages/UserRegister.vue';
 import Login from '../pages/UserLogin.vue';
-import ChatBot from '../pages/ChatBot.vue';
+import SentimentAnalysis from '../pages/SentimentAnalysis.vue';
 import NotFound from '../pages/NotFound.vue';
 import Logout from '../pages/UserLogout.vue';
 
@@ -13,24 +13,24 @@ const routes = [
     component: HomePage,
   },
   {
-    path: '/login',
+    path: '/login/',
     name: 'Login',
     component: Login,
   },
   {
-    path: '/logout',
+    path: '/logout/',
     name: 'Logout',
     component: Logout,
   },
   {
-    path: '/register',
+    path: '/register/',
     name: 'Register',
     component: Register,
   },
   {
-    path: '/chatbot',
-    name: 'ChatBot',
-    component: ChatBot,
+    path: '/sentiment-analysis/',
+    name: 'SentimentAnalysis',
+    component: SentimentAnalysis,
   },
   {
     path: '/:catchAll(.*)',
