@@ -1,16 +1,18 @@
-# chat_matrix
+# ChatMatrix Frontend
 
-## Project setup
+This is the frontend for the ChatMatrix application, built with Vue.js. The frontend communicates with the backend Django to provide chat functionalities, including sentiment analysis and text summarization.
+
+## [STARTING]: Install dependencies in project setup
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### [DEVELOPMENT]: Compiles and hot-reloads
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### [PRODUCTION]: Compiles and minifies 
 ```
 npm run build
 ```
