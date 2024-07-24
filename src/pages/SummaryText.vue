@@ -4,26 +4,24 @@
       <div class="bg-blue-600 text-white p-4 flex justify-between items-center relative">
         <div class="relative flex items-center">
           <button @click="toggleDropdown" class="flex items-center focus:outline-none hover:bg-blue-700 px-2 py-1 rounded-md">
-            <span class="text-xl font-bold">Sentiment Analysis</span>
+            <span class="text-xl font-bold">Summary</span>
             <i class="ri-arrow-down-s-line text-xl ml-1"></i>
           </button>
           <div v-if="dropdownOpen" class="dropdown-menu absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-20">
-            <router-link to="/sentiment-analysis/" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
-              Sentiment Analysis
-            </router-link>
             <router-link to="/summary/" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
               Summary
             </router-link>
+            <router-link to="/sentiment-analysis/" class="block px-4 py-2 text-gray-800 hover:bg-gray-100">
+              Sentiment Analysis
+            </router-link>
           </div>
         </div>
-        <span class="relative group">
-          <router-link to="/logout/">
-            <i class="ri-logout-box-r-line text-xl"></i>
-            <span class="tooltip group-hover:opacity-100">
-              Logout
-            </span>
-          </router-link>
-        </span>
+        <router-link to="/logout/" class="relative group">
+          <i class="ri-logout-box-r-line text-xl"></i>
+          <span class="tooltip group-hover:opacity-100">
+            Logout
+          </span>
+        </router-link>
       </div>
       <div class="flex flex-col h-[calc(100vh-200px)] p-4 overflow-y-auto">
         <ul class="space-y-4">
@@ -48,7 +46,7 @@
           id="messageInput"
           class="flex-grow border rounded-lg px-4 py-2 focus:outline-none resize-none overflow-hidden"
           v-model="newMessage"
-          placeholder="Type your message..."
+          placeholder="Copy and Paste the text you want to be summarize..."
           aria-label="messageInput"
           @keydown.enter.prevent="handleEnter"
           @input="autoResize"
@@ -77,7 +75,7 @@ const newMessage = ref('');
 const chats = ref([]);
 const username = ref('');
 const csrftoken = ref('');
-const dropdownOpen = ref(false);
+const dropdownOpen = ref(false); // State for the dropdown menu
 const router = useRouter();
 
 const fetchCSRFToken = async () => {
@@ -91,7 +89,7 @@ const fetchCSRFToken = async () => {
 
 const fetchChats = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/sentiment-analysis/');
+    const response = await axios.get('http://127.0.0.1:8000/api/summary/');
     chats.value = response.data.chats || []; // Ensure chats is an array
     username.value = response.data.username;
   } catch (error) {
@@ -115,7 +113,7 @@ const sendMessage = async () => {
   newMessage.value = ''; // Clear input
 
   try {
-    const response = await axios.post('http://127.0.0.1:8000/api/sentiment-analysis/', {
+    const response = await axios.post('http://127.0.0.1:8000/api/summary/', {
       message,
     }, {
       headers: {

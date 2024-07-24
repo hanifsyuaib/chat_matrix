@@ -5,6 +5,7 @@ import Login from '../pages/UserLogin.vue';
 import SentimentAnalysis from '../pages/SentimentAnalysis.vue';
 import NotFound from '../pages/NotFound.vue';
 import Logout from '../pages/UserLogout.vue';
+import Summary from '../pages/SummaryText.vue';
 
 const routes = [
   {
@@ -31,6 +32,11 @@ const routes = [
     path: '/sentiment-analysis/',
     name: 'SentimentAnalysis',
     component: SentimentAnalysis,
+  },
+  {
+    path: '/summary/',
+    name: 'Summary',
+    component: Summary,
   },
   {
     path: '/:catchAll(.*)',
