@@ -70,6 +70,8 @@ import { useRouter } from 'vue-router';
 
 // Ensure credentials (such as cookies) are included with every request
 axios.defaults.withCredentials = true;
+const baseURL = process.env.VUE_APP_API_BASE_URL;
+axios.defaults.baseURL = baseURL;
 
 const newMessage = ref('');
 const chats = ref([]);
@@ -80,7 +82,7 @@ const router = useRouter();
 
 const fetchCSRFToken = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/get-csrf-token/');
+    const response = await axios.get('/api/get-csrf-token/');
     csrftoken.value = response.data.csrftoken;
   } catch (error) {
     console.error('Error fetching CSRF token: ', error);
@@ -89,7 +91,7 @@ const fetchCSRFToken = async () => {
 
 const fetchChats = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/summary/');
+    const response = await axios.get('/api/summary/');
     chats.value = response.data.chats || []; // Ensure chats is an array
     username.value = response.data.username;
   } catch (error) {
@@ -113,7 +115,7 @@ const sendMessage = async () => {
   newMessage.value = ''; // Clear input
 
   try {
-    const response = await axios.post('http://127.0.0.1:8000/api/summary/', {
+    const response = await axios.post('/api/summary/', {
       message,
     }, {
       headers: {

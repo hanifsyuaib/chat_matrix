@@ -32,6 +32,8 @@ import { useRouter } from 'vue-router';
 
 // Ensure credentials (such as cookies) are included with every request
 axios.defaults.withCredentials = true;
+const baseURL = process.env.VUE_APP_API_BASE_URL;
+axios.defaults.baseURL = baseURL;
 
 const username = ref('');
 const password = ref('');
@@ -41,7 +43,7 @@ const router = useRouter();
 
 const fetchCSRFToken = async () => {
   try {
-    const response = await axios.get('http://127.0.0.1:8000/api/get-csrf-token/');
+    const response = await axios.get('/api/get-csrf-token/');
     csrftoken.value = response.data.csrftoken;
   } catch (error) {
     errorMessage.value = 'Error fetching CSRF token';
@@ -61,7 +63,7 @@ const login = async () => {
       password: password.value,
     };
 
-    const response = await axios.post('http://127.0.0.1:8000/api/login/', payload, {
+    const response = await axios.post('/api/login/', payload, {
       headers: {
         'X-CSRFToken': csrftoken.value,
       },
