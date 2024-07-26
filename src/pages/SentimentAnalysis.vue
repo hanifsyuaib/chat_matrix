@@ -134,7 +134,18 @@ const sendMessage = async () => {
 
 const handleEnter = (event) => {
   if (event.shiftKey) {
-    newMessage.value += '\n'; // Add newline if Shift + Enter is pressed
+    const { target: textarea } = event;
+    const { selectionStart: start, selectionEnd: end } = textarea;
+    const currentMessage = newMessage.value;
+
+    // Add newline at the cursor position
+    newMessage.value = `${currentMessage.substring(0, start)}\n${currentMessage.substring(end)}`;
+
+    // Restore cursor position after the newline
+    setTimeout(() => {
+      textarea.selectionStart = start + 1;
+      textarea.selectionEnd = start + 1;
+    }, 0);
   } else {
     sendMessage(); // Send message on Enter
   }
