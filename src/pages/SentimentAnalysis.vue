@@ -114,7 +114,12 @@ const sendMessage = async () => {
 
   const message = newMessage.value; // Payload
   chats.value.push({ message }); // Add the user's message to the chat
+
   newMessage.value = ''; // Clear input
+
+  // Directly reset the textarea height
+  const textarea = document.getElementById('messageInput');
+  textarea.style.height = 'auto';
 
   try {
     const response = await axios.post('/api/sentiment-analysis/', {
