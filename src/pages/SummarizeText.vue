@@ -129,7 +129,7 @@ const fetchCSRFToken = async () => {
 
 const fetchChats = async () => {
   try {
-    const response = await axios.get('/api/summarize-text/');
+    const response = await axios.get('/api/summary/');
     chats.value = response.data.chats || []; // Ensure chats is an array
     username.value = response.data.username;
   } catch (error) {
@@ -158,7 +158,7 @@ const sendMessage = async () => {
   textarea.style.height = 'auto';
 
   try {
-    const response = await axios.post('/api/summarize-text/', {
+    const response = await axios.post('/api/summary/', {
       message,
     }, {
       headers: {
