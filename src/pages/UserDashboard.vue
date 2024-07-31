@@ -11,19 +11,19 @@
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
         <!-- Sentiment Analysis Button -->
-        <a href="/sentiment-analysis/" class="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center justify-center text-center transition-colors duration-300 hover:bg-yellow-200">
+        <a href="/sentiment-analysis/" class="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center justify-center text-center transition-colors duration-300 hover:bg-yellow-300">
           <i class="ri-emotion-fill text-5xl text-yellow-500 mb-4"></i>
           <span class="text-2xl font-semibold">Sentiment Analysis</span>
         </a>
 
         <!-- Summarize Text Button -->
-        <a href="/summarize-text/" class="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center justify-center text-center transition-colors duration-300 hover:bg-green-200">
+        <a href="/summarize-text/" class="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center justify-center text-center transition-colors duration-300 hover:bg-green-300">
           <i class="ri-file-text-fill text-5xl text-green-500 mb-4"></i>
           <span class="text-2xl font-semibold">Summarize Text</span>
         </a>
 
         <!-- Number Plate Recognition Button -->
-        <a href="/plate-recognition/" class="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center justify-center text-center transition-colors duration-300 hover:bg-purple-200">
+        <a href="/plate-recognition/" class="bg-white p-8 rounded-lg shadow-lg flex flex-col items-center justify-center text-center transition-colors duration-300 hover:bg-purple-300">
           <i class="ri-car-fill text-5xl text-purple-500 mb-4"></i>
           <span class="text-2xl font-semibold">Plate Recognition</span>
         </a>

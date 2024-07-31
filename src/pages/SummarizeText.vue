@@ -22,15 +22,15 @@
                 <i class="ri-arrow-down-s-line text-3xl ml-1 mt-1"></i>
               </button>
               <div v-if="dropdownOpen" class="dropdown-menu absolute left-0 mt-2 w-full max-w-md bg-white border border-gray-200 rounded-lg shadow-lg z-40">
-                <router-link to="/summarize-text/" class="block px-4 py-2 font-semibold text-gray-500 hover:bg-green-100 rounded-lg mb-1 flex items-center">
+                <router-link to="/summarize-text/" class="block px-4 py-2 font-semibold text-gray-500 hover:bg-green-300 rounded-lg mb-1 flex items-center">
                   <i class="ri-file-text-fill text-2xl text-gray-500 mr-4"></i>
                   <span>Summarize Text</span>
                 </router-link>
-                <router-link to="/sentiment-analysis/" class="block px-4 py-2 font-semibold text-gray-500 hover:bg-yellow-100 rounded-lg mb-1 mt-1 flex items-center">
+                <router-link to="/sentiment-analysis/" class="block px-4 py-2 font-semibold text-gray-500 hover:bg-yellow-300 rounded-lg mb-1 mt-1 flex items-center">
                   <i class="ri-emotion-fill text-2xl text-gray-500 mr-4"></i>
                   <span>Sentiment Analysis</span>
                 </router-link>
-                <router-link to="/plate-recognition/" class="block px-4 py-2 font-semibold text-gray-500 hover:bg-purple-100 rounded-lg mb-1 flex items-center">
+                <router-link to="/plate-recognition/" class="block px-4 py-2 font-semibold text-gray-500 hover:bg-purple-300 rounded-lg mb-1 flex items-center">
                   <i class="ri-car-fill text-2xl text-gray-500 mr-4"></i>
                   <span>Plate Recognition</span>
                 </router-link>
@@ -53,13 +53,13 @@
         <ul class="space-y-4">
           <li v-for="(chat, index) in chats" :key="index">
             <div v-if="chat.message" class="chat-item right-align">
-              <div class="bg-green-100 inline-block p-3 rounded-lg max-w-2xl left-align">
+              <div class="bg-green-300 inline-block p-3 rounded-lg max-w-2xl left-align">
                 <div class="font-bold">{{ username }}</div>
                 <div v-html="formatMessage(chat.message)"></div>
               </div>
             </div>
             <div v-if="chat.response" class="chat-item left-align">
-              <div class="bg-gray-100 inline-block p-3 rounded-lg max-w-2xl left-align">
+              <div class="bg-gray-300 inline-block p-3 rounded-lg max-w-2xl left-align">
                 <div class="font-bold">ChatMatrix</div>
                 <div v-html="formatMessage(chat.response)"></div>
               </div>
