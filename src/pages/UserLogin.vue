@@ -70,7 +70,7 @@ const login = async () => {
     });
 
     if (response.data.success) {
-      router.push('/sentiment-analysis/');
+      router.push('/dashboard/');
     } else {
       errorMessage.value = response.data.error_message;
     }

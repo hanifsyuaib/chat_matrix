@@ -81,7 +81,7 @@ const register = async () => {
     });
 
     if (response.data.success) {
-      router.push('/sentiment-analysis/');
+      router.push('/dashboard/');
     } else {
       errorMessage.value = response.data.error_message;
     }

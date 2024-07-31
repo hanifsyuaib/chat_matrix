@@ -5,7 +5,9 @@ import Login from '../pages/UserLogin.vue';
 import SentimentAnalysis from '../pages/SentimentAnalysis.vue';
 import NotFound from '../pages/NotFound.vue';
 import Logout from '../pages/UserLogout.vue';
-import Summary from '../pages/SummaryText.vue';
+import SummarizeText from '../pages/SummarizeText.vue';
+import Dashboard from '../pages/UserDashboard.vue';
+import PlateRecognition from '../pages/PlateRecognition.vue';
 
 const routes = [
   {
@@ -29,14 +31,24 @@ const routes = [
     component: Register,
   },
   {
+    path: '/dashboard/',
+    name: 'Dashboard',
+    component: Dashboard,
+  },
+  {
     path: '/sentiment-analysis/',
     name: 'SentimentAnalysis',
     component: SentimentAnalysis,
   },
   {
-    path: '/summary/',
-    name: 'Summary',
-    component: Summary,
+    path: '/summarize-text/',
+    name: 'SummarizeText',
+    component: SummarizeText,
+  },
+  {
+    path: '/plate-recognition/',
+    name: 'PlateRecognition',
+    component: PlateRecognition,
   },
   {
     path: '/:catchAll(.*)',
