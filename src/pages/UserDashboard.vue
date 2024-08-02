@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard p-6 bg-gray-100 flex flex-col items-center justify-center">
     <div class="logo mb-6">
-      <img src="../assets/logo.png" alt="Logo" class="h-32">
+      <img src="../assets/logo-mtx.png" alt="Logo-mtx" class="h-32">
     </div>
     <div class="description text-center mb-8">
       <h1 class="text-4xl font-bold mb-4">Welcome to Dashboard - {{ username }}</h1>

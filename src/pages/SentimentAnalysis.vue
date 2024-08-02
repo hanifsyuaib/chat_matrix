@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-100 flex flex-col items-center justify-center">
-    <div class="w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden flex flex-col">
+    <div class="min-h-screen w-full max-w-4xl bg-white shadow-lg rounded-lg overflow-hidden flex flex-col">
       <div class="bg-teal-500 text-white p-4 flex items-center relative fixed top-0 z-50">
         <!-- Grid container for the header layout -->
         <div class="grid grid-cols-3 w-full">
@@ -53,13 +53,13 @@
         <ul class="space-y-4">
           <li v-for="(chat, index) in chats" :key="index">
             <div v-if="chat.message" class="chat-item right-align">
-              <div class="bg-yellow-300 inline-block p-3 rounded-lg max-w-2xl left-align">
+              <div class="bg-yellow-300 inline-block p-3 rounded-lg max-w-2xl left-align break-words">
                 <div class="font-bold">{{ username }}</div>
                 <div v-html="formatMessage(chat.message)"></div>
               </div>
             </div>
             <div v-if="chat.response" class="chat-item left-align">
-              <div class="bg-gray-300 inline-block p-3 rounded-lg max-w-2xl left-align">
+              <div class="bg-gray-300 inline-block p-3 rounded-lg max-w-2xl left-align break-words">
                 <div class="font-bold">ChatMatrix</div>
                 <div v-html="formatMessage(chat.response)"></div>
               </div>
@@ -286,5 +286,8 @@ body {
 .scroll-button {
   @apply z-50;
   transition: opacity 0.3s ease-in-out;
+}
+.break-words {
+  word-break: break-word;
 }
 </style>

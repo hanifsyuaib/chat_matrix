@@ -5,24 +5,46 @@
       <div class="p-6">
         <div v-if="errorMessage" class="bg-red-100 text-red-700 p-2 rounded mb-4" role="alert">{{ errorMessage }}</div>
         <form @submit.prevent="register">
-          <div class="mb-4">
+          <div class="mb-6">
             <label for="username" class="block font-medium mb-1">Username
               <input type="text" id="username" v-model="username" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <div class="mt-1 p-2 bg-blue-100 border-l-4 border-blue-500 text-blue-700 rounded">
+                <i class="ri-user-line mr-2"></i>
+                Choose a unique username. This cannot be changed later.
+              </div>
             </label>
           </div>
-          <div class="mb-4">
+          <div class="mb-6">
             <label for="email" class="block font-medium mb-1">Email
               <input type="email" id="email" v-model="email" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <div class="mt-1 p-2 bg-green-100 border-l-4 border-green-500 text-green-700 rounded">
+                <i class="ri-mail-line mr-2"></i>
+                Provide a valid email for account recovery. This must be unique and cannot be changed later.
+              </div>
             </label>
           </div>
-          <div class="mb-4">
+          <div class="mb-6">
             <label for="password1" class="block font-medium mb-1">Password
               <input type="password" id="password1" v-model="password1" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <div class="mt-1 p-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 rounded">
+                <i class="ri-lock-line mr-2"></i>
+                Your password must be at least 8 characters long and include:
+                <ul class="list-disc pl-5">
+                  <li>One uppercase letter</li>
+                  <li>One lowercase letter</li>
+                  <li>One digit</li>
+                  <li>One special character</li>
+                </ul>
+              </div>
             </label>
           </div>
-          <div class="mb-4">
+          <div class="mb-6">
             <label for="password2" class="block font-medium mb-1">Confirm Password
               <input type="password" id="password2" v-model="password2" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+              <div class="mt-1 p-2 bg-orange-100 border-l-4 border-orange-500 text-orange-700 rounded">
+                <i class="ri-repeat-line mr-2"></i>
+                Re-enter your password to confirm.
+              </div>
             </label>
           </div>
           <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-blue-500 transition">Register</button>
@@ -37,7 +59,6 @@ import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
-// Ensure credentials (such as cookies) are included with every request
 axios.defaults.withCredentials = true;
 const baseURL = process.env.VUE_APP_API_BASE_URL;
 axios.defaults.baseURL = baseURL;
