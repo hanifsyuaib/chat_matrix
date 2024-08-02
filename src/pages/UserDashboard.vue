@@ -29,6 +29,14 @@
         </a>
       </div>
     </div>
+
+    <!-- Change Password Button -->
+    <div class="mt-16">
+      <button @click="changePassword" class="bg-blue-100 text-blue-500 font-bold py-4 px-8 rounded-full text-xl transition-colors duration-300 hover:bg-blue-500 hover:text-white">
+        Change Password
+      </button>
+    </div>
+
     <!-- Logout Button -->
     <div class="mt-16">
       <button @click="logout" class="bg-red-100 text-red-500 font-bold py-4 px-8 rounded-full text-xl transition-colors duration-300 hover:bg-red-500 hover:text-white">
@@ -63,6 +71,10 @@ const AccessDashboard = async () => {
       console.error('Error accessing dashboard:', error);
     }
   }
+};
+
+const changePassword = () => {
+  router.push('/change-password/');
 };
 
 const logout = () => {

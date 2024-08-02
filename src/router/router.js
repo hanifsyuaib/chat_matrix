@@ -8,6 +8,7 @@ import Logout from '../pages/UserLogout.vue';
 import SummarizeText from '../pages/SummarizeText.vue';
 import Dashboard from '../pages/UserDashboard.vue';
 import PlateRecognition from '../pages/PlateRecognition.vue';
+import ChangePassword from '../pages/UserChangePassword.vue';
 
 const routes = [
   {
@@ -54,6 +55,11 @@ const routes = [
     path: '/:catchAll(.*)',
     name: 'NotFound',
     component: NotFound,
+  },
+  {
+    path: '/change-password/',
+    name: 'ChangePassword',
+    component: ChangePassword,
   },
   // Other routes
 ];

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="flex flex-col p-6 items-center justify-center min-h-screen bg-gray-100">
     <div class="bg-white rounded-lg shadow-lg max-w-sm w-full">
       <div class="bg-blue-600 text-white text-2xl font-bold text-center py-4 rounded-t-lg">Register</div>
       <div class="p-6">
@@ -24,8 +24,8 @@
             </label>
           </div>
           <div class="mb-6">
-            <label for="password1" class="block font-medium mb-1">Password
-              <input type="password" id="password1" v-model="password1" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label for="password" class="block font-medium mb-1">Password
+              <input type="password" id="password" v-model="password" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
               <div class="mt-1 p-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 rounded">
                 <i class="ri-lock-line mr-2"></i>
                 Your password must be at least 8 characters long and include:
@@ -39,8 +39,8 @@
             </label>
           </div>
           <div class="mb-6">
-            <label for="password2" class="block font-medium mb-1">Confirm Password
-              <input type="password" id="password2" v-model="password2" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+            <label for="confirmPassword" class="block font-medium mb-1">Confirm Password
+              <input type="password" id="confirmPassword" v-model="confirmPassword" required class="w-full border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
               <div class="mt-1 p-2 bg-orange-100 border-l-4 border-orange-500 text-orange-700 rounded">
                 <i class="ri-repeat-line mr-2"></i>
                 Re-enter your password to confirm.
@@ -50,6 +50,12 @@
           <button type="submit" class="w-full bg-blue-600 text-white font-bold py-2 rounded-lg hover:bg-blue-500 transition">Register</button>
         </form>
       </div>
+    </div>
+    <!-- Homepage Button -->
+    <div class="mt-16">
+      <button @click="homepage" class="bg-blue-100 text-blue-500 font-bold py-4 px-8 rounded-full text-xl transition-colors duration-300 hover:bg-blue-500 hover:text-white">
+        Return to Homepage
+      </button>
     </div>
   </div>
 </template>
@@ -65,8 +71,8 @@ axios.defaults.baseURL = baseURL;
 
 const username = ref('');
 const email = ref('');
-const password1 = ref('');
-const password2 = ref('');
+const password = ref('');
+const confirmPassword = ref('');
 const errorMessage = ref('');
 const csrftoken = ref('');
 const router = useRouter();
@@ -91,8 +97,8 @@ const register = async () => {
     const payload = {
       username: username.value,
       email: email.value,
-      password1: password1.value,
-      password2: password2.value,
+      password: password.value,
+      confirmPassword: confirmPassword.value,
     };
 
     const response = await axios.post('/api/register/', payload, {
@@ -109,5 +115,9 @@ const register = async () => {
   } catch (error) {
     errorMessage.value = 'Error creating account';
   }
+};
+
+const homepage = () => {
+  router.push('/');
 };
 </script>

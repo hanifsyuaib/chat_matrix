@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="flex flex-col p-6 items-center justify-center min-h-screen bg-gray-100">
     <div class="bg-white rounded-lg shadow-lg max-w-sm w-full">
       <div class="bg-blue-600 text-white text-2xl font-bold text-center py-4 rounded-t-lg">Login</div>
       <div class="p-6">

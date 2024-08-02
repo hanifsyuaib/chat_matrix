@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center min-h-screen bg-gray-50 text-center">
+  <div class="flex flex-col p-6 items-center justify-center min-h-screen bg-gray-50 text-center">
     <div class="logo mb-6">
       <img src="../assets/logo-mtx.png" alt="Logo-mtx" class="h-32">
     </div>
