@@ -3,7 +3,11 @@
     <div class="bg-white rounded-lg shadow-lg max-w-sm w-full">
       <div class="bg-blue-600 text-white text-2xl font-bold text-center py-4 rounded-t-lg">Change Password</div>
       <div class="p-6">
+        <!-- Message -->
         <div v-if="errorMessage" class="bg-red-100 text-red-700 p-2 rounded mb-4" role="alert">{{ errorMessage }}</div>
+        <div v-if="successMessage" class="bg-green-100 text-green-700 p-2 rounded mb-4" role="alert">{{ successMessage }}</div>
+
+        <!-- Change Password Form -->
         <form @submit.prevent="changePassword">
           <div class="mb-6">
             <label for="oldPassword" class="block font-medium mb-1">Current Password
@@ -61,6 +65,7 @@ const oldPassword = ref('');
 const newPassword = ref('');
 const confirmNewPassword = ref('');
 const errorMessage = ref('');
+const successMessage = ref('');
 const csrftoken = ref('');
 const router = useRouter();
 
@@ -79,6 +84,7 @@ onMounted(() => {
 
 const changePassword = async () => {
   errorMessage.value = '';
+  successMessage.value = '';
 
   try {
     const payload = {
@@ -94,8 +100,7 @@ const changePassword = async () => {
     });
 
     if (response.data.success) {
-      // error_message value is 'Password has been successfully changed'
-      errorMessage.value = response.data.error_message;
+      successMessage.value = response.data.success_message;
     } else {
       errorMessage.value = response.data.error_message;
     }
