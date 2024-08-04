@@ -9,6 +9,7 @@ import SummarizeText from '../pages/SummarizeText.vue';
 import Dashboard from '../pages/UserDashboard.vue';
 import PlateRecognition from '../pages/PlateRecognition.vue';
 import ChangePassword from '../pages/UserChangePassword.vue';
+import ForgotPassword from '../pages/UserForgotPassword.vue';
 
 const routes = [
   {
@@ -60,6 +61,11 @@ const routes = [
     path: '/change-password/',
     name: 'ChangePassword',
     component: ChangePassword,
+  },
+  {
+    path: '/forgot-password/',
+    name: 'ForgotPassword',
+    component: ForgotPassword,
   },
   // Other routes
 ];
